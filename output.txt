@@ -132,7 +132,7 @@ salet,abort,audit,await
 salet,adore,anime,agape,awake
 salet,acorn,award
 salet,adore,afire,azure,aware
-salet,arson,amiss,awash
+salet,arson,amiss,abyss,awash
 salet,coral,anvil,awful
 salet,adore,above,awoke
 salet,coral,final,axial
@@ -1020,7 +1020,7 @@ salet,irony,idiom
 salet,droit,idiot
 salet,idler
 salet,broil,vinyl,idyll
-salet,color,nylon,igloo
+salet,color,igloo
 salet,coral,iliac
 salet,adore,image
 salet,crone,guide,imbue
