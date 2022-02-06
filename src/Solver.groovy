@@ -5,11 +5,11 @@ class Solver {
     Set<String> include = []
     List<String> letterRegex = '.....'.split('')
 
-    final List<String> candidateGuesses = Main.candidateGuesses.clone()
+    final List<String> candidateGuesses = Main.allFiveLetterWords.clone()
 
 
     List<String> solve() {
-        while (!myGuesses.contains(answer) && myGuesses.size() < 6) {
+        while (!myGuesses.contains(answer)) {
             nextGuess()
             check()
         }
