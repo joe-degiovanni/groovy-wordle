@@ -6,12 +6,12 @@ class Main {
     static List<String> allowedGuesses = new File('./src/wordle-allowed-guesses.txt').text.split('\n')
     static List<String> allFiveLetterWords = allAnswers + allowedGuesses
 
-    static Map<String, Integer> frequencyCounts = allFiveLetterWords
+    static Map<String, Integer> frequencyCounts = allAnswers
             .collect {word -> word.split('') }
             .flatten()
             .countBy {letter -> letter }
 
-    static final List<String> candidateGuesses = allFiveLetterWords.sort(true, rankCompare)
+    static final List<String> candidateGuesses = allAnswers.sort(true, rankCompare)
 
     static int rank(String word) {
         return word.split("").toUnique().sum {frequencyCounts[it]} as int
@@ -19,9 +19,9 @@ class Main {
 
     static void main(String[] args) {
         File output = new File('output.txt')
-        int numPuzzles = allFiveLetterWords.size()
+        int numPuzzles = allAnswers.size()
         int numGuesses = 0
-        allFiveLetterWords
+        allAnswers
                 .take(numPuzzles)
                 .each {answer ->
             List<String> guesses = new Solver(answer: answer).solve()
