@@ -786,7 +786,7 @@ salet,coral,focal
 salet,visor,bonus,focus
 salet,irony,comfy,foggy
 salet,frost,foist
-salet,color,moldy,folio
+salet,color,folio
 salet,color,moldy,holly,golly,folly
 salet,acorn,foray
 salet,crone,force
@@ -1115,7 +1115,7 @@ salet,aisle,lease
 salet,aisle,leash
 salet,least
 salet,renal,leach,leafy,leave
-salet,peril,lemon,leech,leggy,ledge
+salet,peril,lemon,leech,ledge
 salet,peril,lemon,leech
 salet,peril,lemur,leery
 salet,utile,extol,lefty

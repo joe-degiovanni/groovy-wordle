@@ -23,10 +23,9 @@ class Solver {
         candidateGuesses.removeIf { candidate -> !(candidate ==~ "$regex") }
         candidateGuesses.removeIf { candidate ->
             List<String> search = [] + include
-            candidate.split('').each { letter ->
-                int found = search.indexOf(letter)
-                if (found >= 0) search.remove(found)
-
+            def tmp = candidate.split('')
+            tmp.each { letter ->
+                search.remove(letter)
             }
             return !search.isEmpty()
         }
@@ -44,33 +43,30 @@ $include
     }
 
     def check() {
-        List<String> yellows = []
-        List<String> greens = []
-        (0..4).each { pos ->
-            String letter = guess.toCharArray()[pos] as String
-            if (answer.toCharArray()[pos] as String == letter) {
-                greens << letter
-                set(pos, letter)
-            } else if (answer.contains(letter)) {
-                // yellow
-                if (minusYellowsAndGreens(answer, greens, yellows).contains(letter)) {
-                    yellows << letter
-                }
-                exclude(pos, letter)
-            } else {
-                // black
-                exclude(letter)
+        include = []
+        List<String> answerLetters = answer.split('')
+        List<String> guessLetters = guess.split('')
+        (0..4).each {position ->
+            String guessLetter = guessLetters[position]
+            if(guessLetter == answerLetters[position]) {
+                // exact match -- green
+                set(position, guessLetter)
+                include << guessLetter
+                answerLetters[position] = '-'
             }
         }
-        include = yellows
-    }
-
-    def minusYellowsAndGreens(String candidate, List<String> greens, List<String> yellows) {
-        String result = candidate
-        (greens + yellows).each {
-            result = result.replaceFirst(it, '-')
+        (0..4).each {position ->
+            String guessLetter = guessLetters[position]
+            if(answerLetters.contains(guessLetter) && letterRegex[position] != guessLetter) {
+                // yellow
+                exclude(position, guessLetter)
+                include << guessLetter
+                answerLetters[answerLetters.indexOf(guessLetter)] = '-'
+            } else if (!include.contains(guessLetter)) {
+                // black
+                exclude(guessLetter)
+            }
         }
-        return result
     }
 
     def exclude(int index, String letter) {
@@ -93,7 +89,9 @@ $include
 
     static void main(String[] args) {
         Main.allFiveLetterWords.sort(true, {word -> word in Main.allAnswers ? Main.rank(word)*2 : Main.rank(word)}).reverse(true)
+        println new Solver(answer: 'folio').solve()
         println new Solver(answer: 'bible').solve()
+        println new Solver(answer: 'igloo').solve()
     }
 
 }
