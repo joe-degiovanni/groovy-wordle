@@ -78,11 +78,4 @@ class Solver {
         return letterRegex.join("")
     }
 
-    static void main(String[] args) {
-        Main.allFiveLetterWords.sort(true, {word -> word in Main.allAnswers ? Main.rank(word)*2 : Main.rank(word)}).reverse(true)
-        println new Solver(answer: 'folio').solve()
-        println new Solver(answer: 'bible').solve()
-        println new Solver(answer: 'igloo').solve()
-    }
-
 }
