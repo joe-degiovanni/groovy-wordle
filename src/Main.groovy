@@ -1,27 +1,27 @@
 class Main {
 
-    static final Comparator<String> rankCompare = Comparator.comparing({ word -> allAnswers.contains(word) })
-            .thenComparing(Comparator.comparing({ word -> rank(word as String) })).reversed()
+    static final Comparator<String> rankCompare = Comparator.comparing({ word -> rank(word as String) }).reversed()
 
     static List<String> allAnswers = new File('./src/wordle-answers-alphabetical.txt').text.split('\n')
+    static List<String> allowedGuesses = new File('./src/wordle-allowed-guesses.txt').text.split('\n')
+    static List<String> allFiveLetterWords = allAnswers + allowedGuesses
 
-    static final List<String> candidateGuesses = (allAnswers + new File('./src/wordle-allowed-guesses.txt').text.split('\n')
-            .toList().toSet())
-            .sort(true, rankCompare)
+    static Map<String, Integer> frequencyCounts = allFiveLetterWords
+            .collect {word -> word.split('') }
+            .flatten()
+            .countBy {letter -> letter }
+
+    static final List<String> candidateGuesses = allFiveLetterWords.sort(true, rankCompare)
 
     static int rank(String word) {
-        word.split("").toUnique().size() + commonLetterCount(word)
-    }
-
-    static int commonLetterCount(String word) {
-        word.split('').count { it in 'rstlne'.split('') }
+        return word.split("").toUnique().sum {frequencyCounts[it]} as int
     }
 
     static void main(String[] args) {
         File output = new File('output.txt')
-        int numPuzzles = allAnswers.size()
+        int numPuzzles = allFiveLetterWords.size()
         int numGuesses = 0
-        allAnswers
+        allFiveLetterWords
                 .take(numPuzzles)
                 .each {answer ->
             List<String> guesses = new Solver(answer: answer).solve()
