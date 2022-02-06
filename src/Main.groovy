@@ -11,7 +11,7 @@ class Main {
             .flatten()
             .countBy {letter -> letter }
 
-    static final List<String> candidateGuesses = allAnswers.sort(true, rankCompare)
+    static final List<String> candidateGuesses = allFiveLetterWords.sort(true, rankCompare)
 
     static int rank(String word) {
         return word.split("").toUnique().sum {frequencyCounts[it]} as int
