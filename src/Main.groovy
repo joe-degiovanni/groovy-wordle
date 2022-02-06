@@ -1,8 +1,4 @@
-import java.util.function.Function
-
 class Main {
-
-
 
     static List<String> allAnswers = new File('./src/wordle-answers-alphabetical.txt').text.split('\n')
     static List<String> allowedGuesses = new File('./src/wordle-allowed-guesses.txt').text.split('\n')
@@ -23,9 +19,7 @@ class Main {
         allFiveLetterWords.sort(true, {word -> word in allAnswers ? rank(word)*2 : rank(word)}).reverse(true)
         int numPuzzles = allAnswers.size()
         int numGuesses = 0
-        allAnswers
-                .take(numPuzzles)
-                .each {answer ->
+        allAnswers.take(numPuzzles).each {answer ->
             List<String> guesses = new Solver(answer: answer).solve()
             numGuesses += guesses.size()
             output << guesses.join(",") + '\n'
