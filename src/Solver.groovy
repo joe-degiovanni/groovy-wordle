@@ -29,15 +29,6 @@ class Solver {
             }
             return !search.isEmpty()
         }
-        if (candidateGuesses.isEmpty() ) {
-            println """
-$answer
-$guess
-$myGuesses
-$regex
-$include
-"""
-        }
         myGuesses << (myGuesses.isEmpty() ? 'salet' : candidateGuesses.first())
         candidateGuesses.remove(guess)
     }
