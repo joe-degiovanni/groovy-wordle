@@ -5,12 +5,14 @@ class Solver {
     List<String> include = []
     List<String> letterRegex = '.....'.split('')
 
-    final List<String> candidateGuesses = Main.allFiveLetterWords.clone()
+    final List<String> candidateGuesses = Main.allAnswers.clone()
 
     List<String> solve() {
         while (!myGuesses.contains(answer)) {
+            rankCandidates()
             nextGuess()
             check()
+            eliminateInvalidCandidates()
         }
         return myGuesses
     }
@@ -19,18 +21,26 @@ class Solver {
         myGuesses.last()
     }
 
-    def nextGuess() {
+    def rankCandidates() {
+        Map<String, Integer> frequencyCounts = candidateGuesses.collect {it.split('') }.flatten().countBy {it }
+        def rank =  { word -> word.split("").toUnique().sum {frequencyCounts[it]} as int}
+        candidateGuesses.sort(true, {word ->  rank(word)}).reverse(true)
+    }
+
+    def eliminateInvalidCandidates() {
+        candidateGuesses.remove(guess)
         candidateGuesses.removeIf { candidate -> !(candidate ==~ "$regex") }
         candidateGuesses.removeIf { candidate ->
             List<String> search = [] + include
-            def tmp = candidate.split('')
-            tmp.each { letter ->
+            candidate.split('').each { letter ->
                 search.remove(letter)
             }
             return !search.isEmpty()
         }
-        myGuesses << (myGuesses.isEmpty() ? 'salet' : candidateGuesses.first())
-        candidateGuesses.remove(guess)
+    }
+
+    def nextGuess() {
+        myGuesses << candidateGuesses.pop()
     }
 
     def check() {
