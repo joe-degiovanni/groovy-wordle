@@ -23,8 +23,8 @@ class Solver {
     def nextGuess() {
         candidateGuesses.removeIf{ candidate ->!(candidate ==~ "$regex")}
         candidateGuesses.removeIf { candidate ->!include.every {candidate.contains(it)} }
-        myGuesses << candidateGuesses.first()
-        candidateGuesses.remove(myGuesses.last())
+        myGuesses << (myGuesses.isEmpty() ? 'salet' : candidateGuesses.first())
+        candidateGuesses.remove(guess)
     }
 
     def check() {
