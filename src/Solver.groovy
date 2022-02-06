@@ -40,7 +40,7 @@ class Solver {
     }
 
     def nextGuess() {
-        myGuesses << candidateGuesses.pop()
+        myGuesses << (myGuesses.isEmpty() ? 'salet' : candidateGuesses.pop())
     }
 
     def check() {
